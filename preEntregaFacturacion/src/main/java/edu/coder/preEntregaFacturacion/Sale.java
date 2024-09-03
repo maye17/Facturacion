@@ -5,7 +5,11 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table
 public class Sale {
@@ -29,6 +33,7 @@ public class Sale {
     private Customer customer;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<SaleProduct> saleProduct;
 
     public Sale() {
@@ -83,7 +88,7 @@ public class Sale {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sale sale = (Sale) o;
-        return id == sale.id && Objects.equals(saleDate, sale.saleDate) && Objects.equals(totalAmount, sale.totalAmount) && Objects.equals(customer, sale.customer) && Objects.equals(saleProduct, sale.saleProduct);
+        return Objects.equals(id, sale.id) && Objects.equals(saleDate, sale.saleDate) && Objects.equals(totalAmount, sale.totalAmount) && Objects.equals(customer, sale.customer) && Objects.equals(saleProduct, sale.saleProduct);
     }
 
     @Override

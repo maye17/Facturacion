@@ -26,7 +26,6 @@ public class SaleService {
         // Saved the sale
         return saleRepository.save(sale);
     }
-
     public Optional<Sale> findSaleById(Long idSale) {
         return saleRepository.findById(idSale);
     }

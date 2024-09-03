@@ -1,5 +1,6 @@
 package edu.coder.preEntregaFacturacion;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +17,7 @@ public class SaleProductService {
     @Autowired
     private ProductRepository productRepository;
 
-
     public SaleProduct createSaleProduct(SaleProduct saleProduct) {
-        // Verificar si saleProduct es null
-        if (saleProduct == null) {
-            throw new IllegalArgumentException("SaleProduct cannot be null");
-        }
-
-        // Verificar que el objeto sale no sea null
         if (saleProduct.getSale() == null || saleProduct.getSale().getId() == null) {
             throw new IllegalArgumentException("Sale ID cannot be null");
         }
@@ -33,25 +27,29 @@ public class SaleProductService {
             throw new IllegalArgumentException("Product ID cannot be null");
         }
 
-        // Recuperar la venta existente por su ID
-        Optional<Sale> saleOpt = saleRepository.findById(saleProduct.getSale().getId());
-        if (saleOpt.isPresent()) {
-            saleProduct.setSale(saleOpt.get());
-        } else {
-            throw new RuntimeException("Sale not found");
+        try {
+            // Recuperar la venta existente por su ID
+            Sale sale = saleRepository.findById(saleProduct.getSale().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Sale not found"));
+
+            // Recuperar el producto existente por su ID
+            Product product = productRepository.findById(saleProduct.getProduct().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+
+            // Asignar las entidades recuperadas
+            saleProduct.setSale(sale);
+            saleProduct.setProduct(product);
+
+            // Guardar el SaleProduct con las entidades completas
+            return saleProductRepository.save(saleProduct);
+
+        } catch (Exception e) {
+            // Manejo general de excepciones
+            throw new RuntimeException("An unexpected error occurred while creating SaleProduct", e);
         }
 
-        // Recuperar el producto existente por su ID
-        Optional<Product> productOpt = productRepository.findById(saleProduct.getProduct().getId());
-        if (productOpt.isPresent()) {
-            saleProduct.setProduct(productOpt.get());
-        } else {
-            throw new RuntimeException("Product not found");
-        }
-
-        // Guardar el SaleProduct con las entidades completas
-        return saleProductRepository.save(saleProduct);
     }
+
 
     public Optional<SaleProduct> findSaleProductById(Long idSaleProduct) {
         return saleProductRepository.findById(idSaleProduct);

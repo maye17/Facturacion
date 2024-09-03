@@ -1,5 +1,8 @@
 package edu.coder.preEntregaFacturacion;
 
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +34,11 @@ public class SaleProductController {
     public ResponseEntity<?> savedSaleProduct(@RequestBody SaleProduct saleProduct){
         try {
             SaleProduct savedSaleProduct =  saleProductService.createSaleProduct(saleProduct);
-            return ResponseEntity.created(URI.create("")).body(savedSaleProduct);
+            return ResponseEntity.created(URI.create("/saleproducts/" + savedSaleProduct.getId())).body(savedSaleProduct);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entidad relacionada no encontrada.");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.badRequest().body("Violación de integridad de datos.");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(null);

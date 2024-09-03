@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table
 
 public class Product {

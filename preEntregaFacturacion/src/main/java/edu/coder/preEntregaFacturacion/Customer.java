@@ -1,12 +1,13 @@
 package edu.coder.preEntregaFacturacion;
 import jakarta.persistence.*;
 import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table (name = "Customer")
 public class Customer {
     @Id

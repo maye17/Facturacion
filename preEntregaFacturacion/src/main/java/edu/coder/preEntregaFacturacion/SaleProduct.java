@@ -3,8 +3,11 @@ package edu.coder.preEntregaFacturacion;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table
 public class SaleProduct {
     @Id
@@ -17,20 +20,20 @@ public class SaleProduct {
     @Column(name = "PRICE")
     private Double price;
 
-   @ManyToOne
-   @JoinColumn(name = "sale_id", nullable = false)
+//   @ManyToOne
+//   @JoinColumn(name = "sale_id", nullable = false)
+//   private Sale sale;
+
+   @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sale_id")
    private Sale sale;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "sale_id")
-//    private Sale sale;
-   @ManyToOne
-   @JoinColumn(name = "product_id",nullable = false)
-    private Product product;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "product_id")
+//   @ManyToOne
+//   @JoinColumn(name = "product_id",nullable = false)
 //    private Product product;
+
+   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "product_id")
+    private Product product;
 
     public SaleProduct() {
     }
