@@ -1,0 +1,8 @@
+2024-09-01 12:08:32.610339-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "SALEPRODUCT" no encontrada
+Table "SALEPRODUCT" not found; SQL statement:
+select * from saleproduct [42102-224]
+2024-09-02 09:12:44.449345-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]slect * from customer"; se esperaba "SAVEPOINT, SCRIPT, SHUTDOWN"
+Syntax error in SQL statement "[*]slect * from customer"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+slect * from customer [42001-224]
