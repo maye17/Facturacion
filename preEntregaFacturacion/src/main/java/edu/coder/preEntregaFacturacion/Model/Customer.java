@@ -1,7 +1,8 @@
-package edu.coder.preEntregaFacturacion;
+package edu.coder.preEntregaFacturacion.Model;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang3.builder.HashCodeExclude;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,30 +13,38 @@ import java.util.Objects;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "ID for customer", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
+    @Schema(description = "name to customer", example = "peter", requiredMode = Schema.RequiredMode.REQUIRED)
     @Column(name = "NAME")
     private String name;
 
+    @Schema(description = "lastname to customer", example = "smith", requiredMode = Schema.RequiredMode.REQUIRED)
     @Column(name = "LASTNAME")
     private String LastName;
 
+    @Schema(description = "document type to customer", example = "DNI", requiredMode = Schema.RequiredMode.REQUIRED)
     @Column(name = "DOCUMENT_TYPE")
     private String document_type;
 
+    @Schema(description = "document number to customer", example = "90987789", requiredMode = Schema.RequiredMode.REQUIRED)
     @Column(name = "N_DOCUMENT")
     private long n_document;
 
+    @Schema(description = "Phone number to customer", example = "1130303435", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @Column(name = "PHONE")
     private long phone;
-
+    @Schema(description = "email to customer", example = "test@example.com", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @Column(name = "EMAIL")
     private String email;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Schema(description = "some address to customer", example = "Av Antartida 2250", accessMode = Schema.AccessMode.READ_ONLY)
     private List<Address> address;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Schema(description = "Some sale to customer", example = "1 Aceite 5L", accessMode = Schema.AccessMode.READ_ONLY)
     private List<Sale> sales;
 
     public Customer() {

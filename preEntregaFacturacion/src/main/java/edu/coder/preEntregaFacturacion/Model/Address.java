@@ -1,4 +1,4 @@
-package edu.coder.preEntregaFacturacion;
+package edu.coder.preEntregaFacturacion.Model;
 import jakarta.persistence.*;
 
 import java.util.Objects;

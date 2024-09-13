@@ -1,4 +1,8 @@
-package edu.coder.preEntregaFacturacion;
+package edu.coder.preEntregaFacturacion.Service;
+import edu.coder.preEntregaFacturacion.Repository.CustomerRepository;
+import edu.coder.preEntregaFacturacion.Model.Customer;
+import edu.coder.preEntregaFacturacion.Model.Sale;
+import edu.coder.preEntregaFacturacion.Repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

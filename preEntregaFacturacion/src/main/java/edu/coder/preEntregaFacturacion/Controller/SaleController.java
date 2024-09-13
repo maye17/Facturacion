@@ -1,4 +1,6 @@
-package edu.coder.preEntregaFacturacion;
+package edu.coder.preEntregaFacturacion.Controller;
+import edu.coder.preEntregaFacturacion.Model.Sale;
+import edu.coder.preEntregaFacturacion.Service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

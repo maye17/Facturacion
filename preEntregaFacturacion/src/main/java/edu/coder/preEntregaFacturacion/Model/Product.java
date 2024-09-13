@@ -1,4 +1,4 @@
-package edu.coder.preEntregaFacturacion;
+package edu.coder.preEntregaFacturacion.Model;
 
 import jakarta.persistence.*;
 
@@ -24,13 +24,17 @@ public class Product {
     @Column(name = "PRICE")
     private float price;
 
+    @Column(name = "STOCK")
+    private int stock;
+
     public Product() {
     }
 
-    public Product(String product_name, String description, float price) {
+    public Product(String product_name, String description, float price, int stock) {
         this.product_name = product_name;
         this.description = description;
         this.price = price;
+        this.stock= stock;
 
     }
 
@@ -66,18 +70,22 @@ public class Product {
         this.price = price;
     }
 
+    public int getStock() { return stock; }
+
+    public void setStock(int stock) { this.stock = stock; }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Float.compare(price, product.price) == 0 && Objects.equals(id, product.id) && Objects.equals(product_name, product.product_name) && Objects.equals(description, product.description);
+        return Float.compare(price, product.price) == 0 && Objects.equals(id, product.id) && Objects.equals(product_name, product.product_name) && Objects.equals(description, product.description) &&  Objects.equals(stock, product.stock);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, product_name, description, price);
+        return Objects.hash(id, product_name, description, price,stock);
     }
 
     @Override
@@ -87,6 +95,7 @@ public class Product {
                 ", product_name='" + product_name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
+                ",stock =" + stock +
                 '}';
     }
 }

@@ -1,5 +1,7 @@
-package edu.coder.preEntregaFacturacion;
+package edu.coder.preEntregaFacturacion.Controller;
 
+import edu.coder.preEntregaFacturacion.Model.SaleProduct;
+import edu.coder.preEntregaFacturacion.Service.SaleProductService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/saleproducts")
+@RequestMapping("/voucher")
 public class SaleProductController {
 
     @Autowired
