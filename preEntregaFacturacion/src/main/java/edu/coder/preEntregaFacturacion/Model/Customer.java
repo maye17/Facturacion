@@ -22,7 +22,7 @@ public class Customer {
 
     @Schema(description = "lastname to customer", example = "smith", requiredMode = Schema.RequiredMode.REQUIRED)
     @Column(name = "LASTNAME")
-    private String LastName;
+    private String lastName;
 
     @Schema(description = "document type to customer", example = "DNI", requiredMode = Schema.RequiredMode.REQUIRED)
     @Column(name = "DOCUMENT_TYPE")
@@ -52,7 +52,7 @@ public class Customer {
 
     public Customer(String name, String lastName, String document_type, long n_document, long phone, String email) {
         this.name = name;
-        LastName = lastName;
+        this.lastName = lastName;
         this.document_type = document_type;
         this.n_document = n_document;
         this.phone = phone;
@@ -77,11 +77,11 @@ public class Customer {
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getDocument_type() {
@@ -129,12 +129,12 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return Objects.equals(id, customer.id) && n_document == customer.n_document && phone == customer.phone && Objects.equals(name, customer.name) && Objects.equals(LastName, customer.LastName) && Objects.equals(document_type, customer.document_type) && Objects.equals(email, customer.email) && Objects.equals(address, customer.address);
+        return Objects.equals(id, customer.id) && n_document == customer.n_document && phone == customer.phone && Objects.equals(name, customer.name) && Objects.equals(lastName, customer.lastName) && Objects.equals(document_type, customer.document_type) && Objects.equals(email, customer.email) && Objects.equals(address, customer.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, LastName, document_type, n_document, phone, email, address);
+        return Objects.hash(id, name, lastName, document_type, n_document, phone, email, address);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class Customer {
         return "Customer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", LastName='" + LastName + '\'' +
+                ", LastName='" + lastName + '\'' +
                 ", document_type='" + document_type + '\'' +
                 ", n_document=" + n_document +
                 ", phone=" + phone +

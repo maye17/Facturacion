@@ -23,7 +23,10 @@ public class Sale {
     private Date saleDate;
 
     @Column(name = "TOTAL_AMOUNT")
-    private Double totalAmount;
+    private int totalAmount;
+
+    @Column(name = "TOTAL_PRICE")
+    private double totalPrice;
 
 
     //CREATE RELATION TO OTHERS TABLES
@@ -39,10 +42,11 @@ public class Sale {
     public Sale() {
     }
 
-    public Sale(Date saleDate, Double totalAmount, Customer customer) {
+    public Sale(Date saleDate, int totalAmount, Customer customer, Double totalPrice) {
         this.saleDate = saleDate;
         this.totalAmount = totalAmount;
         this.customer = customer;
+        this.totalPrice = totalPrice;
     }
 
     public Long getId() {
@@ -59,11 +63,11 @@ public class Sale {
         this.saleDate = saleDate;
     }
 
-    public Double getTotalAmount() {
+    public int getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Double totalAmount) {
+    public void setTotalAmount(int totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -83,17 +87,21 @@ public class Sale {
         this.saleProduct = saleProduct;
     }
 
+    public double getTotalPrice() { return totalPrice;}
+
+    public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sale sale = (Sale) o;
-        return Objects.equals(id, sale.id) && Objects.equals(saleDate, sale.saleDate) && Objects.equals(totalAmount, sale.totalAmount) && Objects.equals(customer, sale.customer) && Objects.equals(saleProduct, sale.saleProduct);
+        return Objects.equals(id, sale.id) && Objects.equals(saleDate, sale.saleDate) && Objects.equals(totalAmount, sale.totalAmount) && Objects.equals(customer, sale.customer) && Objects.equals(saleProduct, sale.saleProduct)  && Objects.equals(totalPrice, sale.totalPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, saleDate, totalAmount, customer, saleProduct);
+        return Objects.hash(id, saleDate, totalAmount, customer, saleProduct, totalPrice);
     }
 
     @Override
@@ -102,6 +110,7 @@ public class Sale {
                 "id=" + id +
                 ", saleDate=" + saleDate +
                 ", totalAmount=" + totalAmount +
+                ", totalPrice =" + totalPrice +
                 ", customer=" + customer +
                 '}';
     }

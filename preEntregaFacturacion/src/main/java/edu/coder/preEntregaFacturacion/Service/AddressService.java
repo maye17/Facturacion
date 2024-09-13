@@ -14,25 +14,34 @@ import java.util.Optional;
 @Service
 public class AddressService {
 
+
     @Autowired
     private AddressRepository addressRepository;
 
     @Autowired
     private CustomerRepository customerRepository;
 
+
+    public Address saveAddress(Address address) {
+        return addressRepository.save(address);
+    }
     public List<Address> saveAddressesForCustomer(Long customerId, List<Address> addresses) {
-        Optional<Customer> customerOptional = customerRepository.findById(customerId);
-        if (customerOptional.isPresent()) {
-            Customer customer = customerOptional.get();
-            addresses.forEach(address -> address.setCustomer(customer)); // Asigna el cliente a cada dirección
-            return addressRepository.saveAll(addresses); // Guarda todas las direcciones
-        } else {
-            throw new EntityNotFoundException("Customer not found");
-        }
+        // Verificar si el cliente existe
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
+        System.out.println("El cliente no existe");
+
+        // Asignar el cliente a cada dirección y guardarlas
+        addresses.forEach(address -> {
+            address.setCustomer(customer);
+            addressRepository.save(address);
+        });
+
+        return addresses;
     }
 
 
-    public Optional<Address> findAddressById(Long id) {
-        return addressRepository.findById(id); // Utiliza el método findById de Spring Data JPA
+    public Optional<Address> findAddressById(Long addressId) {
+        return addressRepository.findById(addressId); // Utiliza el método findById de Spring Data JPA
     }
 }

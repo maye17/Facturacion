@@ -1,4 +1,5 @@
 package edu.coder.preEntregaFacturacion.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -27,23 +28,24 @@ public class Address {
     private String state;
 
     @Column(name = "POSTAL_CODE")
-    private String PC;
+    private int pc;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
+    @JsonIgnore // Ignora la serialización cursiva
     private Customer customer;
 
     public Address() {
     }
 
-    public Address(int id, String street, long street_number, String flat_number, String city, String state, String PC) {
+    public Address(int id, String street, long street_number, String flat_number, String city, String state, int pc) {
         Id = id;
         this.street = street;
         this.street_number = street_number;
         this.flat_number = flat_number;
         this.city = city;
         this.state = state;
-        this.PC = PC;
+        this.pc = pc;
     }
 
     public int getId() {
@@ -94,12 +96,12 @@ public class Address {
         this.state = state;
     }
 
-    public String getPC() {
-        return PC;
+    public int getPC() {
+        return pc;
     }
 
-    public void setPC(String PC) {
-        this.PC = PC;
+    public void setPC(int PC) {
+        this.pc = pc;
     }
 
     public Customer getCustomer() {
@@ -115,12 +117,12 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return Id == address.Id && street_number == address.street_number && Objects.equals(street, address.street) && Objects.equals(flat_number, address.flat_number) && Objects.equals(city, address.city) && Objects.equals(state, address.state) && Objects.equals(PC, address.PC) && Objects.equals(customer, address.customer);
+        return Id == address.Id && street_number == address.street_number && Objects.equals(street, address.street) && Objects.equals(flat_number, address.flat_number) && Objects.equals(city, address.city) && Objects.equals(state, address.state) && pc == address.pc && Objects.equals(customer, address.customer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id, street, street_number, flat_number, city, state, PC, customer);
+        return Objects.hash(Id, street, street_number, flat_number, city, state, pc, customer);
     }
 
     @Override
@@ -132,7 +134,7 @@ public class Address {
                 ", flat_number='" + flat_number + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
-                ", PC='" + PC + '\'' +
+                ", pc='" + pc + '\'' +
                 '}';
     }
 }

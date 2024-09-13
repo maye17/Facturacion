@@ -20,6 +20,9 @@ public class SaleProduct {
     @Column(name = "PRICE")
     private Double price;
 
+    @Column(name = "SUB_TOTAL")
+    private double subtotal;
+
 //   @ManyToOne
 //   @JoinColumn(name = "sale_id", nullable = false)
 //   private Sale sale;
@@ -38,9 +41,10 @@ public class SaleProduct {
     public SaleProduct() {
     }
 
-    public SaleProduct(Integer quantity, Double price) {
+    public SaleProduct(Integer quantity, Double price, Double subtotal) {
         this.quantity = quantity;
         this.price = price;
+        this.subtotal = subtotal;
     }
 
     public Long getId() {
@@ -78,6 +82,11 @@ public class SaleProduct {
     public Product getProduct() {
         return product;
     }
+
+    public double getSubtotal() { return subtotal;}
+
+    public void setSubtotal(double subtotal) { this.subtotal = subtotal; }
+
 
     public void setProduct(Product product) {
         this.product = product;

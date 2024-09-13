@@ -17,11 +17,13 @@ public class SaleProductService {
     private SaleProductRepository saleProductRepository;
 
     @Autowired
-    private SaleRepository saleRepository;
-
+    private ProductRepository productRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private SaleRepository saleRepository;
+
+    @Autowired
+    private SaleService saleService; // Para actualizar el totalAmount y totalPrice
 
     public SaleProduct createSaleProduct(SaleProduct saleProduct) {
         if (saleProduct.getSale() == null || saleProduct.getSale().getId() == null) {
@@ -33,14 +35,17 @@ public class SaleProductService {
             throw new IllegalArgumentException("Product ID cannot be null");
         }
 
-        try {
-            // Recuperar la venta existente por su ID
-            Sale sale = saleRepository.findById(saleProduct.getSale().getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Sale not found"));
 
-            // Recuperar el producto existente por su ID
+        try {
+
+            //Recupera el producto existente
             Product product = productRepository.findById(saleProduct.getProduct().getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+
+            //Recupera la venta existente
+            Sale sale = saleRepository.findById(saleProduct.getSale().getId())
+                    .orElseThrow(() -> new RuntimeException("Sale not found"));
+
 
             int quantityToSell = saleProduct.getQuantity(); // Suponiendo que esta propiedad define la cantidad vendida.
             int currentStock = product.getStock(); // Suponiendo que esta propiedad define el stock actual del producto.
@@ -48,29 +53,36 @@ public class SaleProductService {
                 throw new RuntimeException("Producto no disponible: Stock insuficiente.");
             }
 
-            // Restar la cantidad vendida del stock actual
+
+            // Resta la cantidad del stock
             product.setStock(currentStock - quantityToSell);
 
-            // Guardar los cambios en el producto
+
+            // Save the change to product
             productRepository.save(product);
-            // Asignar las entidades recuperadas
+
+            // Assign the entities recovered
             saleProduct.setSale(sale);
             saleProduct.setProduct(product);
 
-            // Guardar el SaleProduct con las entidades completas
-            return saleProductRepository.save(saleProduct);
+            // Calculate the subtotal of that sale by product
+            double subtotal = product.getPrice() * quantityToSell;
+            saleProduct.setSubtotal(subtotal);
+
+            // Guarda el SaleProduct
+            SaleProduct savedSaleProduct = saleProductRepository.save(saleProduct);
+
+            // Actualiza los totales de la venta
+            saleService.updateSaleTotals(sale);
+
+            return savedSaleProduct;
 
         } catch (Exception e) {
             // Manejo general de excepciones
             throw new RuntimeException("An unexpected error occurred while creating SaleProduct", e);
         }
-
     }
-
-
     public Optional<SaleProduct> findSaleProductById(Long idSaleProduct) {
         return saleProductRepository.findById(idSaleProduct);
     }
-
-
 }

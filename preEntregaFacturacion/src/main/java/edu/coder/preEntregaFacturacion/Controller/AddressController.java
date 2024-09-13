@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,7 @@ public class AddressController {
         }
     }
 
-    @PostMapping(value = "/customer/{customerId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    @Operation(summary = "Add multiple addresses to a customer", description = "Add multiple addresses to a customer by customer ID")
+    @PostMapping("/Customer/{customerId}")
     public ResponseEntity<?> addAddressesToCustomer(@PathVariable Long customerId, @RequestBody List<Address> addresses) {
         try {
             List<Address> savedAddresses = addressService.saveAddressesForCustomer(customerId, addresses);
@@ -44,7 +44,5 @@ public class AddressController {
             return ResponseEntity.badRequest().body("Error occurred: " + e.getMessage());
         }
     }
-
-
 
 }

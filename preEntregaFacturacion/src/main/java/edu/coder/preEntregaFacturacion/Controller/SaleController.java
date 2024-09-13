@@ -1,5 +1,6 @@
 package edu.coder.preEntregaFacturacion.Controller;
 import edu.coder.preEntregaFacturacion.Model.Sale;
+import edu.coder.preEntregaFacturacion.Repository.SaleProductRepository;
 import edu.coder.preEntregaFacturacion.Service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,6 +15,8 @@ import java.util.Optional;
 public class SaleController {
     @Autowired
     private SaleService saleService;
+    @Autowired
+    private SaleProductRepository saleProductRepository;
 
 
     //Get product by Id
